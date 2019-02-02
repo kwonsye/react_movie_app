@@ -19,12 +19,11 @@ class Modal extends Component{
                 <div className="modal">
                     {this.props.content}
                     <p></p>
-                    <div className="button_base b03_skewed_slide_in">
+                    <div className="button_base b03_skewed_slide_in" onClick={this.props.onClose}>
                         <div>cancel</div>
                         <div></div>
                         <div>cancel</div>
                     </div>
-                    
                 </div>
             </div>
         )

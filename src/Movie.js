@@ -39,9 +39,9 @@ class Movie extends Component{
                             trimRight
                             basedOn='letters'
                         />
-                        <Modal show={this.state.isOpen} onClose={this.toggleModal} content={this.props.synopsis}>
-                        </Modal>
                     </div>
+                    <Modal show={this.state.isOpen} onClose={this.toggleModal} content={this.props.synopsis}>
+                    </Modal>
                     
                 </div>
 
