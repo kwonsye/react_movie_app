@@ -1,68 +1,67 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ReactJS로 Movie App page 만들기
+- 깃허브 static 페이지
 
-## Available Scripts
+    <http://kwonsye.github.io/react_movie_app/>
+- create-react-app 사용
+    - 서버 포트 : 3000번
+    - `yarn start`
+- fontend : React
+    - index.js : index.html 의 `root`에 `<App />` render
+    - App.js (App Component)
+        - `componentDidMount()` : 영화 데이터를 fetch해서 setState하는 `_getMovies()` 호출
+        - `_getMovies()` : `_callApi()` 호출 후 `this.state.movies`에 setState
+        - `_callApi()` : AJAX로 api 데이터 fetch
+        - `this.state.movies` 확인 후 `_renderMovies()` 호출
+        - `_renderMovies()` : `state.movies`의 movie들을 `<Movie />`로 render하게 함.
+    - Movie.js
+        1. Movie Component : props로 넘어온 movie 하나당 `<MoviePoster />`, `props.title` , `<MovieGenre />`, `props.synopsis` render
+            - `toggleModal()` :  시놉시스div를 onClick 시 `isOpen`을 반대로 setState해주고, `<Modal />` 모달창을 띄운다.
 
-In the project directory, you can run:
+        2. MoviePoster Component : smart component, `props.poster`로 `<img/>` render
+        3. MovieGenre Component : dumb component, `props.genre` return
 
-### `npm start`
+    - Modal.js (Modal Component)
+        - 전체 `synopsis`를 모달창에서 보여준다.
+        - `props.show == false` 면 모달창을 안보이게
+        - `props.show == true` 면 모달창을 보이게
+        - close 버튼을 onClick하면 `props.onClose`에 매핑되어있는 `toggleModal()`호출
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    -
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
 
-### `npm test`
+- github page 에 배포하기
+    - static file인 html, js, css파일을 호스팅해준다.
+```
+yarn build //코드를 압축,최적화
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+//package.json 파일에 추가
+"homepage" : "http://kwonsye.github.io/react_movie_app" 
 
-### `npm run build`
+yarn build
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+yarn add --dev gh-pages //github branch이름은 반드시 gh_pages
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+//package.json 파일에 추가
+    "scripts": {
+      // ...
+      "predeploy": "yarn build",
+      "deploy": "gh-pages -d build"
+    }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+yarn run deploy 
+//visit http://kwonsye.github.io/react_movie_app/ !!
+```
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## 추가로 공부해야 할 부분
+1. CSS
+    - Movie.css `@media screen` 의미
+    - `display : flex`
+    - Modal.css
+        - `.backdrop` : 모달div를 제외한 전체 화면 style, `position : fixed`
+        - `.modal` : 모달div style, `posistion : relative`
+        - close 버튼 css참고한 사이트
+        
+            <https://nanati.me/css-button-design/> 
+        - close 버튼 hover하면 nth-child(2),nth-child(3)가 바뀌는 원리 : `transition`, `transform`
+        - `position`
+        - `box-sizing`
